@@ -3,7 +3,10 @@ import model.*;
 import util.UniversalArray;
 import util.UniversalArrayImpl;
 
+
 import java.util.Scanner;
+
+
 public class AppRunner {
     Scanner scanner = new Scanner(System.in);
     private final UniversalArray<Product> products = new UniversalArrayImpl<>();
@@ -65,9 +68,7 @@ public class AppRunner {
         }
         int paymentMethod;
         try {
-
             for (int i = 0; i < products.size(); i++) {
-
                 print("Выберите способ оплаты:");
                 print("1. Наличными");
                 print("2. Картой");
@@ -80,15 +81,19 @@ public class AppRunner {
                 }else if (paymentMethod == 2) {
                     print("Введите пароль: ");
                     String password = scanner.nextLine();
+                    if(password.equals("elhan4ik")) {
+                        coinAcceptor.setAmount(coinAcceptor.getAmount() - products.get(i).getPrice());
+                        print("Вы купили " + products.get(i).getName());
+                        break;
+                    } else print("Неверный пароль, попробуйте еще раз!");
                 } else print("Неверная операция");
-
-                }
+            }
 
         } catch (IllegalArgumentException e) {
             if ("h".equalsIgnoreCase(action)) {
                 isExit = true;
             } else {
-                print("Недопустимая буква. Попрбуйте еще раз.");
+                print("Недопустимая буква. Попробуйте еще раз.");
                 chooseAction(products);
             }
         }
@@ -98,7 +103,8 @@ public class AppRunner {
 
     private void showActions(UniversalArray<Product> products) {
         for (int i = 0; i < products.size(); i++) {
-            print(String.format(" %s - %s", products.get(i).getActionLetter().getValue(), products.get(i).getName()));
+            print(String.format(" %s - %s", products.get(i)
+                    .getActionLetter().getValue(), products.get(i).getName()));
         }
     }
 
