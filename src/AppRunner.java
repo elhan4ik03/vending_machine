@@ -4,9 +4,8 @@ import util.UniversalArray;
 import util.UniversalArrayImpl;
 
 import java.util.Scanner;
-
 public class AppRunner {
-
+    Scanner scanner = new Scanner(System.in);
     private final UniversalArray<Product> products = new UniversalArrayImpl<>();
 
     private final CoinAcceptor coinAcceptor;
@@ -64,14 +63,27 @@ public class AppRunner {
             print("Вы пополнили баланс на 10");
             return;
         }
+        int paymentMethod;
         try {
+
             for (int i = 0; i < products.size(); i++) {
-                if (products.get(i).getActionLetter().equals(ActionLetter.valueOf(action.toUpperCase()))) {
+
+                print("Выберите способ оплаты:");
+                print("1. Наличными");
+                print("2. Картой");
+
+               paymentMethod  = Integer.parseInt(scanner.nextLine());
+                if (paymentMethod == 1) {
                     coinAcceptor.setAmount(coinAcceptor.getAmount() - products.get(i).getPrice());
                     print("Вы купили " + products.get(i).getName());
                     break;
+                }else if (paymentMethod == 2) {
+                    print("Введите пароль: ");
+                    String password = scanner.nextLine();
+                } else print("Неверная операция");
+
                 }
-            }
+
         } catch (IllegalArgumentException e) {
             if ("h".equalsIgnoreCase(action)) {
                 isExit = true;
@@ -103,4 +115,5 @@ public class AppRunner {
     private void print(String msg) {
         System.out.println(msg);
     }
+
 }
